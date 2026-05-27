@@ -1,0 +1,137 @@
+<div class="page">
+
+  <!-- ── HEADER ──────────────────────────────────────────── -->
+  <div class="page-header">
+    <div class="breadcrumb">
+      <span class="breadcrumb-link" (click)="onBack()">Employees</span>
+      <span class="breadcrumb-sep">›</span>
+      <span>{{ employee()?.firstName }} {{ employee()?.lastName }}</span>
+    </div>
+
+    <div class="header-actions">
+      <button class="btn-secondary" (click)="onBack()">← Back</button>
+      @if (employee()) {
+        <button class="btn-edit" (click)="onEdit()">Edit</button>
+        <button class="btn-delete-hdr" (click)="onDelete()">Delete</button>
+      }
+    </div>
+  </div>
+
+  <!-- ── LOADING ──────────────────────────────────────────── -->
+  @if (loading()) {
+    <div class="state-box">
+      <div class="spinner"></div>
+      Loading employee…
+    </div>
+  }
+
+  <!-- ── ERROR ────────────────────────────────────────────── -->
+  @if (error()) {
+    <div class="state-box state-error">{{ error() }}</div>
+  }
+
+  <!-- ── CONTENT ──────────────────────────────────────────── -->
+  @if (employee(); as emp) {
+
+    <!-- Hero card -->
+    <div class="hero-card">
+      <div class="hero-avatar">{{ initials(emp) }}</div>
+      <div class="hero-info">
+        <div class="hero-name">{{ emp.firstName }} {{ emp.lastName }}</div>
+        <div class="hero-meta">{{ emp.designation }} &nbsp;·&nbsp; {{ emp.department }}</div>
+        <div class="hero-email">{{ emp.email }}</div>
+      </div>
+      <span class="status-pill" [ngClass]="statusClass(emp.status)">
+        {{ emp.status }}
+      </span>
+    </div>
+
+    <!-- Detail card -->
+    <div class="detail-card">
+
+      <!-- ── Employment ─────────────────────── -->
+      <div class="section-title">Employment Details</div>
+      <div class="detail-grid">
+
+        <div class="detail-item">
+          <span class="detail-label">Employee ID</span>
+          <span class="detail-value">#{{ emp.id }}</span>
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">Department</span>
+          <span class="detail-value">{{ emp.department }}</span>
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">Designation</span>
+          <span class="detail-value">{{ emp.designation }}</span>
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">Join Date</span>
+          <span class="detail-value">{{ emp.joinDate | date:'dd MMM yyyy' }}</span>
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">Salary</span>
+          <span class="detail-value salary">₹{{ emp.salary.toLocaleString('en-IN') }}</span>
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">Status</span>
+          <span class="status-pill" [ngClass]="statusClass(emp.status)">{{ emp.status }}</span>
+        </div>
+
+      </div>
+
+      <!-- ── Contact ────────────────────────── -->
+      <div class="section-title">Contact Details</div>
+      <div class="detail-grid">
+
+        <div class="detail-item">
+          <span class="detail-label">Email</span>
+          <span class="detail-value">{{ emp.email }}</span>
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">Phone</span>
+          <span class="detail-value">{{ emp.phone || '—' }}</span>
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">Location</span>
+          <span class="detail-value">{{ emp.location || '—' }}</span>
+        </div>
+
+      </div>
+
+      <!-- ── Performance (optional fields) ───── -->
+      @if (emp.yearsOfExperience != null || emp.performanceScore != null) {
+        <div class="section-title">Performance</div>
+        <div class="detail-grid">
+
+          @if (emp.yearsOfExperience != null) {
+            <div class="detail-item">
+              <span class="detail-label">Years of Experience</span>
+              <span class="detail-value">{{ emp.yearsOfExperience }} yrs</span>
+            </div>
+          }
+
+          @if (emp.performanceScore != null) {
+            <div class="detail-item">
+              <span class="detail-label">Performance Score</span>
+              <div class="score-row">
+                <span class="detail-value">{{ emp.performanceScore }}</span>
+                <span class="score-denom">/ 5.0</span>
+              </div>
+            </div>
+          }
+
+        </div>
+      }
+
+    </div>
+  }
+
+</div>

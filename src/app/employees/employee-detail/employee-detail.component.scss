@@ -1,0 +1,198 @@
+.page {
+  padding: 28px 32px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+// ── HEADER ─────────────────────────────────────────
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #888;
+
+  .breadcrumb-link {
+    cursor: pointer;
+    &:hover { color: #1a1612; text-decoration: underline; }
+  }
+  .breadcrumb-sep { color: #ccc; }
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-secondary {
+  padding: 8px 16px;
+  border: 1.5px solid #ddd;
+  border-radius: 6px;
+  background: white;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #555;
+  &:hover { border-color: #999; color: #1a1a1a; }
+}
+
+.btn-edit {
+  padding: 8px 20px;
+  border: 1.5px solid #1e8449;
+  border-radius: 6px;
+  background: white;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #1e8449;
+  &:hover { background: #e8f8f2; }
+}
+
+.btn-delete-hdr {
+  padding: 8px 20px;
+  border: 1.5px solid #c0392b;
+  border-radius: 6px;
+  background: white;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #c0392b;
+  &:hover { background: #fdf0f0; }
+}
+
+// ── STATE BOXES ────────────────────────────────────
+.state-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 48px;
+  text-align: center;
+  color: #888;
+  font-size: 14px;
+  border: 1.5px solid #eee;
+  border-radius: 8px;
+  background: white;
+
+  &.state-error { color: #c0392b; border-color: #f5c6c6; background: #fff5f5; }
+}
+
+.spinner {
+  width: 18px; height: 18px;
+  border: 2px solid #e0e0e0;
+  border-top-color: #1a1612;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+// ── HERO CARD ──────────────────────────────────────
+.hero-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: white;
+  border: 1.5px solid #eee;
+  border-radius: 8px;
+  padding: 24px 28px;
+  margin-bottom: 16px;
+}
+
+.hero-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #1a1612;
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.hero-info { flex: 1; }
+
+.hero-name  { font-size: 20px; font-weight: 700; color: #1a1a1a; margin-bottom: 4px; }
+.hero-meta  { font-size: 13px; color: #666; margin-bottom: 4px; }
+.hero-email { font-size: 12px; color: #999; }
+
+// ── DETAIL CARD ────────────────────────────────────
+.detail-card {
+  background: white;
+  border: 1.5px solid #eee;
+  border-radius: 8px;
+  padding: 24px 28px;
+}
+
+// ── SECTION TITLE ──────────────────────────────────
+.section-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #888;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 20px;
+  margin-top: 24px;
+  &:first-of-type { margin-top: 0; }
+}
+
+// ── DETAIL GRID ────────────────────────────────────
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 40px;
+  margin-bottom: 8px;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.detail-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detail-value {
+  font-size: 14px;
+  color: #1a1a1a;
+  font-weight: 500;
+
+  &.salary { font-weight: 700; }
+}
+
+.score-row {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+.score-denom { font-size: 12px; color: #999; }
+
+// ── STATUS PILL ────────────────────────────────────
+.status-pill {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+
+  &.status-active   { background: #e8f8f2; color: #1e8449; }
+  &.status-inactive { background: #fdf0f0; color: #c0392b; }
+  &.status-leave    { background: #fef5e7; color: #d35400; }
+}

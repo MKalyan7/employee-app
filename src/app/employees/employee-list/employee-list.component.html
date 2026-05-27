@@ -1,0 +1,183 @@
+<div class="page">
+
+  <!-- ── HEADER ──────────────────────────────────── -->
+  <div class="page-header">
+    <div class="page-title">
+      <h1>Employees</h1>
+      <p class="page-subtitle">
+        {{ empService.totalCount() }} total &nbsp;·&nbsp;
+        {{ empService.activeCount() }} active &nbsp;·&nbsp;
+        {{ empService.onLeaveCount() }} on leave
+      </p>
+    </div>
+    <button class="btn-primary" 
+      routerLink="/employees/new">
+      + Add Employee
+    </button>
+  </div>
+
+  <!-- ── TOOLBAR ─────────────────────────────────── -->
+  <div class="toolbar">
+
+    <!-- Search box — fires onSearch() on every keystroke -->
+    <input
+      type="text"
+      class="search-input"
+      placeholder="Search by name or department..."
+      (input)="onSearch($event)" />
+
+    <!-- Status filter chips -->
+    <div class="filter-chips">
+      @for (status of statuses; track status) {
+        <button
+          class="chip"
+          [class.chip-active]="selectedStatus() === status"
+          (click)="onStatusFilter(status)">
+          {{ status }}
+        </button>
+      }
+    </div>
+
+  </div>
+
+  <!-- ── LOADING STATE ────────────────────────────── -->
+  @if (empService.loading()) {
+    <div class="state-box">
+      <div class="spinner"></div>
+      Loading employees...
+    </div>
+  }
+
+  <!-- ── ERROR STATE ──────────────────────────────── -->
+  @if (empService.error()) {
+    <div class="state-box state-error">
+      {{ empService.error() }}
+    </div>
+  }
+
+  <!-- ── EMPTY STATE ──────────────────────────────── -->
+  @if (!empService.loading() && filteredEmployees().length === 0) {
+    <div class="state-box">
+      No employees found matching your search.
+    </div>
+  }
+
+  <!-- ── TABLE ────────────────────────────────────── -->
+  @if (!empService.loading() && paginatedEmployees().length > 0) {
+
+    <div class="table-wrapper">
+      <table class="emp-table">
+
+        <thead>
+          <tr>
+            <th>Employee</th>
+            <th>Department</th>
+            <th>Designation</th>
+            <th>Salary</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (emp of paginatedEmployees(); track emp.id) {
+            <tr>
+
+              <!-- Name + email cell -->
+              <td>
+                <div class="emp-cell">
+                  <div class="avatar">{{ initials(emp) }}</div>
+                  <div class="emp-info">
+                    <span class="emp-name">
+                      {{ emp.firstName }} {{ emp.lastName }}
+                    </span>
+                    <span class="emp-email">{{ emp.email }}</span>
+                  </div>
+                </div>
+              </td>
+
+              <td>{{ emp.department }}</td>
+              <td>{{ emp.designation }}</td>
+              <td>₹{{ emp.salary.toLocaleString('en-IN') }}</td>
+
+              <!-- Status pill — ngClass applies color class -->
+              <td>
+                <span
+                  class="status-pill"
+                  [ngClass]="statusClass(emp.status)">
+                  {{ emp.status }}
+                </span>
+              </td>
+
+              <!-- Action buttons -->
+              <td class="actions-cell">
+                <button
+                  class="btn-sm btn-view"
+                  [routerLink]="['/employees', emp.id]">
+                  View
+                </button>
+                <button
+                  class="btn-sm btn-edit"
+                  [routerLink]="['/employees', emp.id, 'edit']">
+                  Edit
+                </button>
+                <button
+                  class="btn-sm btn-delete"
+                  (click)="onDelete(emp)">
+                  Delete
+                </button>
+              </td>
+
+            </tr>
+          }
+        </tbody>
+
+      </table>
+    </div>
+
+    <!-- ── PAGINATION ──────────────────────────────── -->
+    <div class="pagination">
+
+      <span class="page-info">
+        Showing {{ showingFrom() }}–{{ showingTo() }}
+        of {{ filteredEmployees().length }}
+      </span>
+
+      <div class="page-btns">
+
+        <!-- Previous button -->
+        <button
+          class="page-btn"
+          [disabled]="currentPage() === 1"
+          (click)="onPageChange(currentPage() - 1)">
+          ‹
+        </button>
+
+        <!-- Windowed page buttons — null slots become "…" ellipsis -->
+        @for (page of visiblePages(); track $index) {
+          @if (page === null) {
+            <span class="page-ellipsis">…</span>
+          } @else {
+            <button
+              class="page-btn"
+              [class.page-active]="currentPage() === page"
+              (click)="onPageChange(page)">
+              {{ page }}
+            </button>
+          }
+        }
+
+        <!-- Next button -->
+        <button
+          class="page-btn"
+          [disabled]="currentPage() === totalPages()"
+          (click)="onPageChange(currentPage() + 1)">
+          ›
+        </button>
+
+      </div>
+    </div>
+
+  }
+
+</div>
